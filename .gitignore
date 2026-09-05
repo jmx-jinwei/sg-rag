@@ -1,0 +1,30 @@
+# Local environments and secrets
+.env
+*.local
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+build/
+dist/
+*.egg-info/
+
+# Large local assets
+datasets/
+data/
+models/
+checkpoints/
+outputs/
+results/
+logs/
+*.safetensors
+*.bin
+*.pt
+*.pth
+
+# Benchmark outputs
+*_predictions.jsonl
+summary_metrics.csv
+run_config.json
+run_metadata.json

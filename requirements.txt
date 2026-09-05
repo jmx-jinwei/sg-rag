@@ -1,0 +1,9 @@
+torch
+transformers==4.46.3
+accelerate
+numpy
+tqdm
+pytest
+
+# Optional: enables the native BGE-M3 embedding backend.
+# FlagEmbedding
