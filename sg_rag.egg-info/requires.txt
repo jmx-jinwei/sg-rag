@@ -1,0 +1,11 @@
+torch
+transformers==4.46.3
+accelerate
+numpy
+tqdm
+
+[dev]
+pytest
+
+[embedding]
+FlagEmbedding

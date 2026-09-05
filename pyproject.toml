@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sg-rag"
+version = "0.1.0"
+description = "Skill-card graph retrieval augmented generation for small local language models"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "torch",
+    "transformers==4.46.3",
+    "accelerate",
+    "numpy",
+    "tqdm",
+]
+
+[project.optional-dependencies]
+embedding = ["FlagEmbedding"]
+dev = ["pytest"]
+
+[tool.setuptools.packages.find]
+include = ["sg_rag*", "baselines*", "benchmark*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
