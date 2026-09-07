@@ -51,8 +51,6 @@ SG-RAG/
 └── run_sg_rag.py
 ```
 
-The repository intentionally excludes datasets, model weights, generated predictions, paper result tables, API credentials, and machine-specific paths. LightRAG and MiniRAG source trees are also excluded; their official repositories should be used separately when those baselines are needed.
-
 ## Requirements
 
 - Python 3.10 or newer.
@@ -94,12 +92,12 @@ Additional fields are preserved in the output under `row_extra`.
 
 ## Run SG-RAG
 
-The easiest server workflow is to export three local paths and call the script:
+The simplest workflow involves specifying the local paths of three related models and datasets, and then invoking the script:
 
 ```bash
-export DATASET_DIR=/path/to/UltraDomain
-export LLM_MODEL_PATH=/path/to/Meta-Llama-3-8B-Instruct
-export EMBEDDING_MODEL_PATH=/path/to/bge-m3
+export DATASET_DIR=UltraDomain
+export LLM_MODEL_PATH=Meta-Llama-3-8B-Instruct
+export EMBEDDING_MODEL_PATH=bge-m3
 export DOMAINS="mix agriculture"
 export OUTPUT_DIR=outputs/sg_rag_agriculture
 bash scripts/run_sg_rag.sh
@@ -109,9 +107,9 @@ The equivalent direct command is:
 
 ```bash
 python -m benchmark.run \
-  --dataset-dir /path/to/UltraDomain \
-  --llm-model-path /path/to/Meta-Llama-3-8B-Instruct \
-  --embedding-model-path /path/to/bge-m3 \
+  --dataset-dir UltraDomain \
+  --llm-model-path Meta-Llama-3-8B-Instruct \
+  --embedding-model-path bge-m3 \
   --output-dir outputs/sg_rag \
   --domains mix \
   --methods sg_rag \
@@ -123,8 +121,6 @@ python -m benchmark.run \
   --embedding-backend hf \
   --skillgraph-evidence-per-chunk 4
 ```
-
-For a short smoke run, set `LIMIT=3` and use `bash scripts/run_smoke.sh`.
 
 ## Baseline Comparisons
 
@@ -144,14 +140,12 @@ sg_rag          SG-RAG (skillgraph is accepted as a compatibility alias)
 Run all retained baselines with:
 
 ```bash
-export DATASET_DIR=/path/to/UltraDomain
-export LLM_MODEL_PATH=/path/to/Meta-Llama-3-8B-Instruct
-export EMBEDDING_MODEL_PATH=/path/to/bge-m3
+export DATASET_DIR=UltraDomain
+export LLM_MODEL_PATH=Meta-Llama-3-8B-Instruct
+export EMBEDDING_MODEL_PATH=bge-m3
 export DOMAINS=mix
 bash scripts/run_baselines.sh
 ```
-
-The paper comparison uses `top-k=5` for the retained chunk-retrieval baselines. `scripts/run_baselines.sh` applies this setting; SG-RAG uses `top-k=10`.
 
 ## Ablation Experiments
 
@@ -212,20 +206,7 @@ Use `python -m benchmark.run --help` for the full list of model, retrieval, grap
 - Keep the model paths, GPU type, CUDA version, batch size, context limits, and sample limit fixed when comparing methods.
 - Compare `run_metadata.json` for whole-run wall-clock time and the per-record timing fields for average query latency; these answer different questions.
 - The default embedding backend is `hf`. Use the same backend for every method in a comparison.
-- Full experiments can require substantial GPU memory, especially for long contexts and large local language models.
 - The retrieval metrics are answer-token-overlap proxies, not manually annotated passage relevance judgments.
-
-## Development Checks
-
-Run the tests and compile checks before publishing:
-
-```bash
-python -m pytest -q
-python -m compileall -q sg_rag baselines benchmark run_sg_rag.py
-python -m benchmark.run --help
-```
-
-No model or dataset download is triggered by the help command.
 
 ## License
 
